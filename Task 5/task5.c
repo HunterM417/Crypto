@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h> 
 
 unsigned char iv[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 unsigned char key[] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9,0xa,0xb,0xc};
@@ -39,10 +40,16 @@ int main()
 {
     unsigned char encrypted_text[EVP_MAX_BLOCK_LENGTH];
     int encrypt_len = 0;
+    clock_t t; 
+    t = clock(); 
     encrypt(plaintext, encrypted_text, &encrypt_len, key);
-
+    t = clock() - t; 
     printf("Plaintext: %s\n", plaintext);
     printf("Cipher: %s\n", encrypted_text);
+
+    double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds 
+  
+    printf("The encryption took %f seconds to execute \n", time_taken); 
 
     return 0;
 }

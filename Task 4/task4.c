@@ -19,7 +19,7 @@ unsigned char iv[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 unsigned char *plaintext = "This is a top secret.";
 
-int encrypt(unsigned char* plaintext, unsigned char* encrypted_text, int* buf_out_len, unsigned char* key)
+int encrypt(unsigned char* plaintext, unsigned char* encrypted_text, int* e_len, unsigned char* key)
 {
     if(strlen(key) < 16)
     {
@@ -37,9 +37,9 @@ int encrypt(unsigned char* plaintext, unsigned char* encrypted_text, int* buf_ou
 
     int encrypt_len;
     EVP_CipherUpdate(&ctx, encrypted_text, &encrypt_len, plaintext, strlen(plaintext));
-    *buf_out_len = encrypt_len;
+    *e_len = encrypt_len;
     EVP_CipherFinal_ex(&ctx, encrypted_text + encrypt_len, &encrypt_len);
-    *buf_out_len += encrypt_len;
+    *e_len += encrypt_len;
     EVP_CIPHER_CTX_cleanup(&ctx);
     return 1;
 }
